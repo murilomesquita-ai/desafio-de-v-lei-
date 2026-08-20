@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Simulador interativo de fundamentos e rodízio do vôlei.">
+	<title>Desafio do Vôlei</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<canvas id="fundo-animado" aria-hidden="true"></canvas>
+	<main class="app">
+		<header class="cabecalho">
+			<p class="etiqueta">Treino de fundamentos</p>
+			<h1>Desafio do Vôlei <span aria-hidden="true">🏐</span></h1>
+			<p>Organize a equipe, execute a sequência correta e marque pontos.</p>
+			<div class="opcoes-cenario" aria-label="Opções da experiência">
+				<button type="button" class="btn-opcao" id="alternar-animacao" onclick="alternarAnimacao()">Pausar fundo</button>
+				<button type="button" class="btn-opcao" onclick="alternarTema()">Trocar clima</button>
+			</div>
+		</header>
+
+		<section class="painel-placar" aria-label="Placar da partida">
+			<div>
+				<span class="nome-time">Sua equipe</span>
+				<strong id="placar-time-a">0</strong>
+			</div>
+			<span class="versus">x</span>
+			<div>
+				<span class="nome-time">Adversário</span>
+				<strong id="placar-time-b">0</strong>
+			</div>
+		</section>
+
+		<section class="quadra-container" aria-labelledby="titulo-quadra">
+			<div class="secao-titulo">
+				<div>
+					<p class="etiqueta">Formação atual</p>
+					<h2 id="titulo-quadra">Quadra</h2>
+				</div>
+				<span class="badge">Rodízio 6 posições</span>
+			</div>
+			<div class="linha-rede">REDE</div>
+			<div class="quadra">
+				<label class="posicao pos-4" for="pos4">
+					<span class="label-pos">Posição 4</span>
+					<small>Ataque esquerdo</small>
+					<input type="text" id="pos4" value="Jogador 4">
+				</label>
+				<label class="posicao pos-3" for="pos3">
+					<span class="label-pos">Posição 3</span>
+					<small>Levantador / meio</small>
+					<input type="text" id="pos3" value="Jogador 3">
+				</label>
+				<label class="posicao pos-2" for="pos2">
+					<span class="label-pos">Posição 2</span>
+					<small>Ataque direito</small>
+					<input type="text" id="pos2" value="Jogador 2">
+				</label>
+				<label class="posicao pos-5" for="pos5">
+					<span class="label-pos">Posição 5</span>
+					<small>Defesa esquerda</small>
+					<input type="text" id="pos5" value="Jogador 5">
+				</label>
+				<label class="posicao pos-6" for="pos6">
+					<span class="label-pos">Posição 6</span>
+					<small>Defesa meio</small>
+					<input type="text" id="pos6" value="Jogador 6">
+				</label>
+				<label class="posicao pos-1" for="pos1">
+					<span class="label-pos">Posição 1</span>
+					<small>Saque</small>
+					<input type="text" id="pos1" value="Jogador 1">
+				</label>
+			</div>
+		</section>
+
+		<section class="controles" aria-labelledby="titulo-acoes">
+			<div class="secao-titulo">
+				<div>
+					<p class="etiqueta">Próximo movimento</p>
+					<h2 id="titulo-acoes">Escolha uma jogada</h2>
+				</div>
+			</div>
+			<div class="botoes">
+				<button type="button" onclick="sacar()">Saque</button>
+				<button type="button" onclick="defender()">Defesa</button>
+				<button type="button" class="btn-manchete" onclick="manchete()">Manchete</button>
+				<button type="button" class="btn-toque" onclick="toque()">Toque</button>
+				<button type="button" class="btn-levantar" onclick="levantar()">Levantamento <span aria-hidden="true">🎯</span></button>
+				<button type="button" onclick="atacar()">Ataque <span aria-hidden="true">🔥</span></button>
+				<button type="button" onclick="bloquear()">Bloqueio</button>
+				<button type="button" class="btn-rodizio" onclick="fazerRodizio()">Fazer rodízio <span aria-hidden="true">↻</span></button>
+				<button type="button" class="btn-adversario" onclick="registrarPonto('B')">Ponto adversário</button>
+				<button type="button" class="btn-reset" onclick="reiniciarSet()">Novo set</button>
+			</div>
+		</section>
+
+		<output id="resultado" class="resultado" aria-live="polite">Aguardando jogada...</output>
+	</main>
+	<script src="script.js"></script>
+</body>
+</html>
