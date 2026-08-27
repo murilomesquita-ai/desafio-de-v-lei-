@@ -22,12 +22,12 @@
 
 		<section class="painel-placar" aria-label="Placar da partida">
 			<div>
-				<span class="nome-time">Sua equipe</span>
+					<span class="nome-time">Azul</span>
 				<strong id="placar-time-a">0</strong>
 			</div>
 			<span class="versus">x</span>
 			<div>
-				<span class="nome-time">Adversário</span>
+					<span class="nome-time">Vermelho</span>
 				<strong id="placar-time-b">0</strong>
 			</div>
 		</section>
@@ -40,8 +40,22 @@
 				</div>
 				<span class="badge">Rodízio 6 posições</span>
 			</div>
-			<div class="linha-rede">REDE</div>
-			<div class="quadra">
+			<div class="arena">
+				<div class="lado-quadra lado-adversario">
+					<div class="identificacao-lado identificacao-adversario">Vermelho</div>
+					<div class="quadra quadra-adversaria" aria-label="Quadra adversária">
+					<label class="posicao" for="adversario-pos4"><span class="label-pos">Posição 4</span><small>Ataque esquerdo</small><input type="text" id="adversario-pos4" value="Adversário 4"></label>
+					<label class="posicao" for="adversario-pos3"><span class="label-pos">Posição 3</span><small>Levantador / meio</small><input type="text" id="adversario-pos3" value="Adversário 3"></label>
+					<label class="posicao" for="adversario-pos2"><span class="label-pos">Posição 2</span><small>Ataque direito</small><input type="text" id="adversario-pos2" value="Adversário 2"></label>
+					<label class="posicao" for="adversario-pos5"><span class="label-pos">Posição 5</span><small>Defesa esquerda</small><input type="text" id="adversario-pos5" value="Adversário 5"></label>
+					<label class="posicao" for="adversario-pos6"><span class="label-pos">Posição 6</span><small>Defesa meio</small><input type="text" id="adversario-pos6" value="Adversário 6"></label>
+					<label class="posicao pos-1" for="adversario-pos1"><span class="label-pos">Posição 1</span><small>Saque</small><input type="text" id="adversario-pos1" value="Adversário 1"></label>
+					</div>
+				</div>
+				<div class="linha-rede" aria-label="Rede de vôlei"></div>
+				<div class="lado-quadra lado-sua-equipe">
+					<div class="identificacao-lado identificacao-sua-equipe">Azul</div>
+					<div class="quadra">
 				<label class="posicao pos-4" for="pos4">
 					<span class="label-pos">Posição 4</span>
 					<small>Ataque esquerdo</small>
@@ -72,6 +86,9 @@
 					<small>Saque</small>
 					<input type="text" id="pos1" value="Jogador 1">
 				</label>
+					</div>
+				</div>
+				<span id="bola" class="bola" role="img" aria-label="Bola em movimento">🏐</span>
 			</div>
 		</section>
 
@@ -82,21 +99,61 @@
 					<h2 id="titulo-acoes">Escolha uma jogada</h2>
 				</div>
 			</div>
-			<div class="botoes">
-				<button type="button" onclick="sacar()">Saque</button>
-				<button type="button" onclick="defender()">Defesa</button>
-				<button type="button" class="btn-manchete" onclick="manchete()">Manchete</button>
-				<button type="button" class="btn-toque" onclick="toque()">Toque</button>
-				<button type="button" class="btn-levantar" onclick="levantar()">Levantamento <span aria-hidden="true">🎯</span></button>
-				<button type="button" onclick="atacar()">Ataque <span aria-hidden="true">🔥</span></button>
-				<button type="button" onclick="bloquear()">Bloqueio</button>
-				<button type="button" class="btn-rodizio" onclick="fazerRodizio()">Fazer rodízio <span aria-hidden="true">↻</span></button>
-				<button type="button" class="btn-adversario" onclick="registrarPonto('B')">Ponto adversário</button>
-				<button type="button" class="btn-reset" onclick="reiniciarSet()">Novo set</button>
+			<div class="seletor-resultado" role="group" aria-labelledby="rotulo-resultado-jogada">
+				<span id="rotulo-resultado-jogada">Resultado da jogada</span>
+				<button type="button" id="escolha-sucesso" class="escolha-resultado selecionado" onclick="escolherResultado(true)">Sucesso</button>
+				<button type="button" id="escolha-falha" class="escolha-resultado" onclick="escolherResultado(false)">Falha</button>
 			</div>
+			<div class="grupos-jogadas">
+				<div class="grupo-jogadas">
+					<h3>Azul</h3>
+					<div class="botoes">
+						<button type="button" onclick="sacar()">Saque</button>
+						<button type="button" onclick="sacarForte()">Saque forte</button>
+						<button type="button" onclick="sacarFraco()">Saque fraco</button>
+						<button type="button" onclick="defender()">Defesa</button>
+						<button type="button" class="btn-manchete" onclick="manchete()">Manchete</button>
+						<button type="button" class="btn-toque" onclick="toque()">Toque</button>
+						<button type="button" class="btn-levantar" onclick="levantar()">Levantamento <span aria-hidden="true">🎯</span></button>
+						<button type="button" onclick="atacar()">Ataque <span aria-hidden="true">🔥</span></button>
+						<button type="button" onclick="bloquear()">Bloqueio</button>
+						<button type="button" class="btn-rodizio" onclick="fazerRodizio()">Fazer rodízio <span aria-hidden="true">↻</span></button>
+						<button type="button" onclick="darPontoMinhaEquipe()">Ponto sua equipe</button>
+					</div>
+				</div>
+				<div class="grupo-jogadas grupo-adversario">
+					<h3>Vermelho</h3>
+					<div class="botoes">
+						<button type="button" class="btn-adversario" onclick="sacarAdversario()">Saque adversário</button>
+						<button type="button" class="btn-adversario" onclick="sacarForteAdversario()">Saque forte adversário</button>
+						<button type="button" class="btn-adversario" onclick="sacarFracoAdversario()">Saque fraco adversário</button>
+						<button type="button" class="btn-adversario" onclick="defenderAdversario()">Defesa adversária</button>
+						<button type="button" class="btn-adversario" onclick="mancheteAdversaria()">Manchete adversária</button>
+						<button type="button" class="btn-adversario" onclick="toqueAdversario()">Toque adversário</button>
+						<button type="button" class="btn-adversario" onclick="levantarAdversario()">Levantamento adversário</button>
+						<button type="button" class="btn-adversario" onclick="atacarAdversario()">Ataque adversário</button>
+						<button type="button" class="btn-adversario" onclick="bloquearAdversario()">Bloqueio adversário</button>
+						<button type="button" class="btn-adversario" onclick="fazerRodizioAdversario()">Rodízio adversário</button>
+						<button type="button" class="btn-adversario" onclick="darPontoAdversario()">Ponto adversário</button>
+					</div>
+				</div>
+			</div>
+			<button type="button" class="btn-reset" onclick="reiniciarSet()">Novo set</button>
 		</section>
 
 		<output id="resultado" class="resultado" aria-live="polite">Aguardando jogada...</output>
+
+		<section class="historico-container" aria-labelledby="titulo-historico">
+			<div class="secao-titulo">
+				<div>
+					<p class="etiqueta">Registro da partida</p>
+					<h2 id="titulo-historico">Histórico de jogadas</h2>
+				</div>
+			</div>
+			<ol id="historico-jogadas" class="historico-jogadas">
+				<li class="historico-vazio">Nenhuma jogada registrada ainda.</li>
+			</ol>
+		</section>
 	</main>
 	<script src="script.js"></script>
 </body>

@@ -102,7 +102,7 @@ h1 {
 .painel-placar strong { font-size: 2.4rem; line-height: 1; }
 .versus { color: var(--laranja-claro); font-size: 1.5rem; }
 
-.quadra-container, .controles {
+.quadra-container, .controles, .historico-container {
   padding: clamp(20px, 4vw, 34px);
   background: var(--branco);
   border: 1px solid var(--borda);
@@ -115,8 +115,36 @@ h1 {
 h2 { margin-bottom: 0; color: var(--verde-escuro); font-size: 1.8rem; }
 .badge { padding: 7px 10px; color: var(--verde); background: var(--verde-claro); border-radius: 999px; font: 700 0.72rem Arial, sans-serif; white-space: nowrap; }
 
-.linha-rede { padding: 7px; color: var(--branco); background: var(--verde-escuro); border-radius: 4px; font: 700 0.7rem Arial, sans-serif; letter-spacing: 0.2em; text-align: center; }
-.quadra { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 14px; background: var(--laranja); border: 4px solid var(--branco); outline: 1px solid #d8b483; }
+.arena { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr); align-items: center; gap: 10px; }
+.lado-quadra { display: grid; gap: 8px; min-width: 0; }
+.lado-adversario { grid-column: 1; }
+.lado-sua-equipe { grid-column: 3; }
+.identificacao-lado { color: var(--verde-escuro); font: 700 0.72rem Arial, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
+.identificacao-adversario { margin-top: 2px; }
+.identificacao-sua-equipe { margin-top: 2px; }
+.linha-rede { position: relative; z-index: 2; grid-column: 2; grid-row: 1; width: 28px; height: calc(100% + 16px); margin: -8px auto; background-color: #263d3a; background-image: linear-gradient(rgba(255, 253, 248, 0.65) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 253, 248, 0.65) 1px, transparent 1px); background-size: 7px 7px; border: 3px solid var(--branco); box-shadow: 0 4px 8px rgba(24, 50, 46, 0.25); }
+.linha-rede::before, .linha-rede::after { position: absolute; top: -10px; bottom: -10px; width: 6px; background: #8b5f39; border: 2px solid var(--branco); content: ""; }
+.linha-rede::before { left: -10px; }
+.linha-rede::after { right: -10px; }
+.quadra { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); aspect-ratio: 1.35; gap: 10px; padding: 14px; background: var(--laranja); border: 4px solid var(--branco); outline: 1px solid #d8b483; }
+.quadra::after { position: absolute; top: 50%; right: 0; left: 0; height: 4px; background: var(--branco); box-shadow: 0 0 0 1px rgba(24, 50, 46, 0.16); content: ""; transform: translateY(-50%); pointer-events: none; }
+.quadra-adversaria { background: #d0784e; transform: rotate(180deg); }
+.quadra-adversaria .posicao { transform: rotate(180deg); background: #e5a064; }
+.quadra-adversaria .pos-1 { background: #74b883; }
+.posicao::before { display: block; margin-bottom: 5px; font-size: 2rem; line-height: 1; content: "🧍"; filter: drop-shadow(1px 2px 1px rgba(24, 50, 46, 0.2)); }
+.bola { position: absolute; z-index: 3; top: var(--bola-origem-y, 50%); left: var(--bola-origem-x, 18%); display: grid; width: 36px; height: 36px; place-items: center; font-size: 1.8rem; line-height: 1; pointer-events: none; transform: translate(-50%, -50%); }
+.bola.animar-para-adversario { animation: bola-para-adversario 700ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+.bola.animar-para-sua-equipe { animation: bola-para-sua-equipe 700ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+@keyframes bola-para-adversario {
+  0% { top: var(--bola-origem-y); left: var(--bola-origem-x); }
+  50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.18); }
+  100% { top: var(--bola-destino-y); left: var(--bola-destino-x); }
+}
+@keyframes bola-para-sua-equipe {
+  0% { top: var(--bola-origem-y); left: var(--bola-origem-x); }
+  50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.18); }
+  100% { top: var(--bola-destino-y); left: var(--bola-destino-x); }
+}
 .posicao { display: flex; min-height: 122px; flex-direction: column; align-items: center; justify-content: center; padding: 13px 9px; background: var(--laranja-claro); border: 2px dashed rgba(255, 253, 248, 0.8); border-radius: 5px; text-align: center; }
 .pos-1 { background: #74b883; }
 .label-pos { color: var(--branco); font: 700 0.86rem Arial, sans-serif; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35); }
@@ -125,6 +153,17 @@ h2 { margin-bottom: 0; color: var(--verde-escuro); font-size: 1.8rem; }
 .posicao input:focus { outline: 3px solid rgba(35, 107, 131, 0.3); border-color: var(--azul); }
 
 .botoes { display: flex; flex-wrap: wrap; gap: 10px; }
+.grupos-jogadas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.grupo-jogadas { padding: 14px; border: 1px solid var(--borda); border-radius: 6px; background: rgba(220, 239, 230, 0.28); }
+.grupo-jogadas h3 { margin: 0 0 12px; color: var(--verde-escuro); font: 700 0.8rem Arial, sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+.grupo-adversario { background: rgba(154, 77, 84, 0.06); }
+.grupo-adversario h3 { color: #9a4d54; }
+.grupo-jogadas .botoes button { flex-basis: 120px; }
+.seletor-resultado { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; font: 700 0.78rem Arial, sans-serif; }
+.seletor-resultado > span { margin-right: 4px; color: var(--verde-escuro); }
+.escolha-resultado { flex: 0 0 auto; padding: 8px 12px; color: var(--verde-escuro); background: transparent; border: 1px solid var(--borda); font-size: 0.78rem; }
+.escolha-resultado:hover, .escolha-resultado.selecionado { color: var(--branco); background: var(--verde); }
+.escolha-resultado:last-child.selecionado { background: #9a4d54; }
 button { flex: 1 1 130px; padding: 13px 16px; color: var(--branco); background: var(--verde); border: 0; border-radius: 5px; cursor: pointer; font: 700 0.9rem Arial, sans-serif; transition: transform 150ms ease, background 150ms ease; }
 button:hover { background: var(--verde-escuro); transform: translateY(-2px); }
 button:focus-visible { outline: 3px solid var(--laranja-claro); outline-offset: 2px; }
@@ -137,6 +176,14 @@ button:focus-visible { outline: 3px solid var(--laranja-claro); outline-offset: 
 .btn-reset:hover { color: var(--branco); background: var(--verde-escuro); }
 
 .resultado { display: block; margin-top: 22px; padding: 17px 20px; color: var(--verde-escuro); background: var(--verde-claro); border-left: 5px solid var(--laranja); border-radius: 4px; font: 700 1rem/1.4 Arial, sans-serif; }
+.historico-container { margin-top: 22px; }
+.historico-jogadas { display: grid; gap: 8px; max-height: 330px; margin: 0; padding: 0; overflow-y: auto; list-style: none; }
+.historico-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-left: 4px solid var(--verde); background: rgba(220, 239, 230, 0.5); font: 0.85rem Arial, sans-serif; }
+.historico-item small { display: block; margin-top: 3px; color: rgba(24, 50, 46, 0.7); font-size: 0.72rem; }
+.jogada-falha { border-left-color: #9a4d54; background: rgba(154, 77, 84, 0.08); }
+.indicador-jogada { display: grid; width: 24px; height: 24px; flex: 0 0 24px; place-items: center; color: var(--branco); background: var(--verde); border-radius: 50%; font-weight: 700; }
+.jogada-falha .indicador-jogada { background: #9a4d54; }
+.historico-vazio { padding: 14px; color: rgba(24, 50, 46, 0.65); background: rgba(220, 239, 230, 0.45); font: 0.85rem Arial, sans-serif; text-align: center; }
 
 @media (max-width: 560px) {
   .app { width: min(100% - 22px, 920px); padding-top: 28px; }
@@ -146,4 +193,8 @@ button:focus-visible { outline: 3px solid var(--laranja-claro); outline-offset: 
   .posicao small { font-size: 0.64rem; }
   .posicao input { font-size: 0.72rem; }
   .painel-placar { gap: 22px; }
+  .bola { width: 30px; height: 30px; font-size: 1.45rem; }
+  .grupos-jogadas { grid-template-columns: 1fr; }
+  .arena { grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr); gap: 5px; }
+  .linha-rede { font-size: 0.58rem; }
 }
